@@ -1,7 +1,7 @@
 {
   "definitions": {
     "npm": {
-      "default": "9.8.1+sha1.b8f070cc770128b38017160491504184863329f0",
+      "default": "10.0.0+sha1.8ae4af5337f3b5f6bd9c02f485acba0b43ab54d8",
       "fetchLatestFrom": {
         "type": "npm",
         "package": "npm"
@@ -27,12 +27,18 @@
           "registry": {
             "type": "npm",
             "package": "npm"
+          },
+          "commands": {
+            "use": [
+              "npm",
+              "install"
+            ]
           }
         }
       }
     },
     "pnpm": {
-      "default": "8.6.12+sha1.a2f983fbf8f2531dc85db2a5d7f398063d51a6f3",
+      "default": "8.7.1+sha1.cb9fb56ca170a718619cd9bc669d99ddadc1afb5",
       "fetchLatestFrom": {
         "type": "npm",
         "package": "pnpm"
@@ -62,6 +68,12 @@
           "registry": {
             "type": "npm",
             "package": "pnpm"
+          },
+          "commands": {
+            "use": [
+              "pnpm",
+              "install"
+            ]
           }
         },
         ">=6.0.0": {
@@ -73,6 +85,12 @@
           "registry": {
             "type": "npm",
             "package": "pnpm"
+          },
+          "commands": {
+            "use": [
+              "pnpm",
+              "install"
+            ]
           }
         }
       }
@@ -98,6 +116,12 @@
           "registry": {
             "type": "npm",
             "package": "yarn"
+          },
+          "commands": {
+            "use": [
+              "yarn",
+              "install"
+            ]
           }
         },
         ">=2.0.0": {
@@ -114,6 +138,12 @@
               "tags": "latest",
               "versions": "tags"
             }
+          },
+          "commands": {
+            "use": [
+              "yarn",
+              "install"
+            ]
           }
         }
       }
