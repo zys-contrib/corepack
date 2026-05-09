@@ -1455,6 +1455,10 @@ describe(`should pick up COREPACK_INTEGRITY_KEYS from env`, () => {
 for (const authType of [`COREPACK_NPM_REGISTRY`, `COREPACK_NPM_TOKEN`, `COREPACK_NPM_PASSWORD`, `PROXY`]) {
   describe(`custom registry with auth ${authType}`, () => {
     beforeEach(() => {
+      if (authType === `PROXY`) {
+        process.env.HTTP_PROXY = `http://localhost:23456`; // Arbitrary port number that's hopefully free
+        process.env.NODE_USE_ENV_PROXY = `1`;
+      }
       process.env.AUTH_TYPE = authType; // See `_registryServer.mjs`
       process.env.COREPACK_INTEGRITY_KEYS = ``;
     });

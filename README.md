@@ -352,7 +352,7 @@ same major line. Should you need to upgrade to a new major, use an explicit
   empty password, explicitly set `COREPACK_NPM_PASSWORD` to an empty string.
 
 - `HTTP_PROXY`, `HTTPS_PROXY`, and `NO_PROXY` are supported through
-  [`proxy-from-env`](https://github.com/Rob--W/proxy-from-env).
+  [`NODE_USE_ENV_PROXY=1`](https://nodejs.org/api/cli.html#node_use_env_proxy1).
 
 - `COREPACK_INTEGRITY_KEYS` can be set to an empty string or `0` to
   instruct Corepack to skip integrity checks, or to a JSON string containing
