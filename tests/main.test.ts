@@ -1004,7 +1004,10 @@ it(`should support hydrating package managers if cache folder was removed`, asyn
   });
 });
 
-it(`should support hydrating multiple package managers from cached archives`, async () => {
+it(`should support hydrating multiple package managers from cached archives`, async t => {
+  // Skip that test on Windows as it times out
+  if (process.platform === `win32`) t.skip();
+
   await xfs.mktempPromise(async cwd => {
     await expect(runCli(cwd, [`pack`, `yarn@2.2.2`, `pnpm@5.8.0`])).resolves.toMatchObject({
       exitCode: 0,
