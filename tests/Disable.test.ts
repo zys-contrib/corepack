@@ -80,9 +80,10 @@ describe(`DisableCommand`, () => {
       const dontRemoveBin = await makeBin(cwd, `dont-remove` as Filename);
       binNames.add(ppath.basename(dontRemoveBin));
 
-      process.env.PATH = `${npath.fromPortablePath(cwd)}${delimiter}${process.env.PATH}`;
-      await expect(runCli(cwd, [`disable`, `yarn`])).resolves.toMatchObject({
+      await expect(runCli(cwd, [`disable`, `--install-directory=${npath.fromPortablePath(cwd)}`, `yarn`])).resolves.toMatchObject({
         exitCode: 0,
+        stdout: ``,
+        stderr: ``,
       });
 
       for (const variant of getBinaryNames(`yarn`))
@@ -103,17 +104,23 @@ describe(`DisableCommand`, () => {
       await xfs.mkdirPromise(ppath.join(cwd, `switch/bin`), {recursive: true});
       await xfs.writeFilePromise(ppath.join(cwd, `switch/bin/yarn`), `hello`);
 
-      await xfs.linkPromise(
+      await xfs.symlinkPromise(
         ppath.join(cwd, `switch/bin/yarn`),
         ppath.join(cwd, `yarn`),
       );
 
-      await expect(runCli(cwd, [`disable`])).resolves.toMatchObject({
+      const isWindows = process.platform === `win32`; // Yarn Switch support is Posix-only
+      await expect(runCli(cwd, [`disable`, `--install-directory=${npath.fromPortablePath(cwd)}`])).resolves.toMatchObject({
+        stdout: ``,
+        stderr: isWindows ? `` : expect.stringMatching(/^yarn is already installed in .+ and points to a Yarn Switch install - skipping\n$/),
         exitCode: 0,
       });
 
-      const file = await xfs.readFilePromise(ppath.join(cwd, `yarn`), `utf8`);
-      expect(file).toBe(`hello`);
+      if (isWindows) {
+        expect(xfs.existsSync(ppath.join(cwd, `yarn`))).toBe(false);
+      } else {
+        await expect(xfs.readFilePromise(ppath.join(cwd, `yarn`), `utf8`)).resolves.toBe(`hello`);
+      }
     });
   });
 });
